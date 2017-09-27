@@ -38,24 +38,19 @@ public class Student implements Attendee {
 		return last.toLowerCase().equals(l.toLowerCase());
 	}
 
-	//returns three words separated by 20 spaces: 
-	//at index 0, the last name
-	//at index 20, the first name
-	//at index 40, the word PRESENT or ABSENT
-	//ADDED CHALLENGE:
-	//if last name or first name is longer than 20 characters, 
-	//cut off the last three letters and replace with "..."
+
 	public String getReportString() {
 		String report = l;
 		report = restrictStringToLength(report, 20);
 		report += f;
 		report = restrictStringToLength(report, 40);
 		if(present) {
-			report += "PRESENT\n"
+			report += "PRESENT\n";
 		}
-		else
+		else {
 			report += "ABSENT\n";
-		
+		}
+		return report;
 	}
 	public String restrictStringToLength(String s, int length){
 		if (s.length() > length) {
