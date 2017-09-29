@@ -11,7 +11,13 @@ public class Chatbot {
 		username = "Unknown User";
 		chatting = true;
 	}
-
+	
+	public String getUsername() {
+		return username;
+	}
+	public Topic getJohnson() {
+		return johnson;
+	}
 	public void startChatting() {
 		//whenever you print or get input, use these methods.
 		ChatbotMain.print("Hi! I am an intelligent machine that can respond to your inputs. Tell me your name.");
