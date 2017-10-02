@@ -20,11 +20,38 @@ public class Utility{
 	}
 
 	public static boolean keywordIsIsolated(int psn, String keyword, String s){
-		return true;
+		keyword = keyword.toLowerCase();
+		s = s.toLowerCase();
+		String nextWord = "";
+		try {
+			nextWord = s.substring(psn + keyword.length() + 1, psn + keyword.length() + 2);
+		} catch(Exception except) {
+			nextWord = "";
+		}
+		if(nextWord.equals(" ") || nextWord.compareTo("z") < -26 ) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	public static boolean noNegations(String s, int psn){
-		return true;
+		s = s.toLowerCase();
+		int firstSpaceAppearance = -1;
+		int secondSpaceAppearance = psn--;
+		for(int i = 0; i < secondSpaceAppearance; i++) {
+			if(s.substring(i, i + 1).compareTo(" ") == 0) {
+				firstSpaceAppearance = i;
+			}
+		}
+		if(firstSpaceAppearance == -1) {
+			return true;
+		}
+		String negatedWord = s.substring(firstSpaceAppearance + 1, secondSpaceAppearance);
+		if(negatedWord.equals("no") || negatedWord.equals("not")) {
+			return false;
+		}
+			return true;
 	}
 
 
