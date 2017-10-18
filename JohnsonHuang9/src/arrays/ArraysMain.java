@@ -9,18 +9,49 @@ public class ArraysMain {
 	
 	
 	public ArraysMain() {
-		tuesdayMethods();
+		wednesdayMethods();
 	}
 	
-	private void tuesdayMethods() {
-		int[] orderTest = {1,20,3,65,5,54,7,8,63,10};
-		isConsecutive(orderTest,2,5);
-		System.out.println(Arrays.toString(orderTest));
-		System.out.println(isConsecutive(orderTest,2,5));
-		System.out.println(longestConsecutiveSequence(orderTest));
+	private void wednesdayMethods() {
+		int[] diceRolls = new int[100000];
+		populate(diceRolls);
+		int[] data = longestConsecutiveSeqAndIndex(diceRolls);
+		int longest = data[0];
+		System.out.println("The longest sequence is "+ longest + " rolls."
+				+ " It happened on roll #" + data[1] + " the sequence was: "
+					+ Arrays.toString(subArray(diceRolls,data[1], data[0])) + ".");
 	}
-	
-	
+
+	/**
+	 * BIG IDEA:
+	 * Usually a method returns ONE piece of data(i.e. 'int', 'boolean', etc)
+	 * If we ever want more than one piece of data, one way of doing that 
+	 * is by using an array, as you see here, a method that returns the length 
+	 * of the sequence and its START position(both ints)
+	 * @param arr
+	 * @return
+	 */
+	private int[] longestConsecutiveSeqAndIndex(int[] arr) {
+		//use an int[] to store the data 
+		int[] data = new int[2];//element at zero is length, at 1 is position
+		
+		data[0] = 1;
+		int current = 1;
+		for(int i = 0; i < arr.length; i++) {
+			while (i + current < arr.length && isConsecutive(arr, i, i + current)) {
+				current++;
+			}
+			if(current > data[0]) {
+				data[0] = current;
+				//also store the index where this sequence started
+				data[1] = i;
+			}
+			i = i + current -1;
+			current = 1;
+		}
+		return data;
+	}
+
 	/**
 	 * return the length of the longest con. sequence in the array
 	 * ex: lcs({1,2,3,2,3,4,5,2,3,4}) -> 4
@@ -28,17 +59,6 @@ public class ArraysMain {
 	 * @return
 	 */
 	private int longestConsecutiveSequence(int[] arr) {
-		/*int lcs = 1;
-		for(int i = 0; i < arr.length - 1; i++) {
-			if(isConsecutive(arr, i, i + 1)) {
-				lcs++;
-			}
-			else {
-				lcs = 1;
-			}
-			
-		}
-		return lcs;*/
 		int max = 1;
 		int current = 1;
 		for(int i = 0; i < arr.length; i++) {
@@ -54,6 +74,13 @@ public class ArraysMain {
 		return max;
 	}
 	
+	private void tuesdayMethods() {
+		int[] orderTest = {1,20,3,65,5,54,7,8,63,10};
+		isConsecutive(orderTest,2,5);
+		System.out.println(Arrays.toString(orderTest));
+		System.out.println(isConsecutive(orderTest,2,5));
+		System.out.println(longestConsecutiveSequence(orderTest));
+	}
 	/**
 	 * returns true if all of the elements from start to end are increasing by 1
 	 * @param arr
