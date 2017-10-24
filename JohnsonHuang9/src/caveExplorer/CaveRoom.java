@@ -67,6 +67,85 @@ public class CaveRoom {
 		return direction[dir];
 	}
 	
+	public void enter() {
+		contents = "X";
+	}
+	
+	public void leave() {
+		contents = defaultContents;
+	}
+	
+	/**
+	 * This is how we join rooms together.
+	 * It gives this room access to anotherRoom and vice-versa
+	 * It also puts the door between both rooms
+	 * @param direction
+	 * @param anotherRoom
+	 * @param door
+	 */
+	public void setConnection(int direction, CaveRoom anotherRoom, Door door) {
+		addRoom(direction,anotherRoom,door);
+		anotherRoom.addRoom(oppositeDirection(direction), this, door);
+	}
+	
+	public void addRoom(int dir, CaveRoom caveRoom, Door door) {
+		borderingRooms[dir] = caveRoom;
+		doors[dir] = door;
+		setDirections();//updates the directions 
+	}
+	
+	public void interpretInput(String input) {
+		while(!isValid(input)) {
+			System.out.println("You can only enter 'w', 'a', 's', or 'd'.");
+			input = CaveExplorer.in.nextLine();
+		}
+		int direction = "wdsa".indexOf(input);
+		
+		/*
+		 * convert w,a,s,d to directions 0,3,2,1
+		 */
+		goToRoom(direction);
+	}
+	
+	/**
+	 * THIS IS WHERE YOU EDIT YOUR CAVES 
+	 */
+	public static void setUpCaves() {
+		
+	}
+	
+	/**
+	 * returns true if w,a,s, or d is the input (NO IF STATEMENTS)
+	 * @param input
+	 * @return
+	 */
+	private boolean isValid(String input) {
+		return "wasd".indexOf(input) != -1 && input.length() == 1;
+	}
+
+	public void goToRoom(int direction) {
+		//make sure that there is a room to go to:
+		if(borderingRooms[direction] != null && doors[direction] != null &&
+				doors[direction].isOpen()){
+			CaveExplorer.currentRoom.leave();
+			CaveExplorer.currentRoom = borderingRooms[direction];
+			CaveExplorer.inventory.updateMap();
+		}else {
+			//print red text
+			System.err.println("You can't do that!");
+		}
+	}
+	
+	/**
+	 * returns the OPPOSITE direction
+	 * 		oD(0) returns 2
+	 * @param dir
+	 * @return
+	 */
+	public static int oppositeDirection(int dir) {
+		return (dir + 2) % 4;
+	}
+	
 	public void setDefaultContents(String defaultContents) {
 		this.defaultContents = defaultContents;
 	}
