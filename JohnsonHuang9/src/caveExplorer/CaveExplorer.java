@@ -9,6 +9,7 @@ public class CaveExplorer {
 	public static CaveRoom currentRoom;//changes as the user moves
 	public static Inventory inventory;
 	public static boolean playing = true;
+	public static NPC[] npcs;
 	
 	public static void main(String[] args) {
 		in = new Scanner(System.in);
@@ -22,6 +23,7 @@ public class CaveExplorer {
 	}
 	private static void startExploring() {
 		while(playing) {
+			moveNPCs();
 			print(inventory.getDescription());
 			print(currentRoom.getDescription());
 			print(currentRoom.getDirections());
@@ -29,6 +31,13 @@ public class CaveExplorer {
 			currentRoom.interpretInput(in.nextLine());
 		}
 		
+	}
+
+	private static void moveNPCs() {
+		for(NPC n: npcs) {
+			n.autoMove();
+		}
+		inventory.updateMap();
 	}
 
 }
