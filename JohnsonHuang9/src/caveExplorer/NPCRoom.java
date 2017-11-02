@@ -32,7 +32,7 @@ public class NPCRoom extends CaveRoom {
 	
 	public void printValidMoves() {
 		System.out.println("You can only enter 'w', 'a', 's', or 'd' to move " + 
-				"or you can press 'e' to interact.");
+				"or you can press 'e' to interact");
 		
 	}
 	public String validMoves() {
