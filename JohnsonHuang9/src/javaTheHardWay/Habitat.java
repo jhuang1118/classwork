@@ -1,6 +1,6 @@
 package javaTheHardWay;
 
-public class Habitat {
+public class Habitat extends Environment {
 
 	private Animal[] animals;
 	
