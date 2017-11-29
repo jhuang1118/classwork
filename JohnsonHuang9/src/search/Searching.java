@@ -55,6 +55,7 @@ public class Searching {
 
 
 	private int binarysearch(int[] searchThis, int min, int max, int target) {
+		delay();
 		if (max >= min)
         {
             int middle = min + (max - min)/2;
